@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import userRouter from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
+import  cookiesParser from 'cookie-parser';
+
 dotenv.config();
 mongoose.connect(process.env.MONGO).then(()=>{
     console.log('Connected to  MongoDB!');
@@ -15,6 +17,8 @@ mongoose.connect(process.env.MONGO).then(()=>{
 
 const app=express();
 app.use(express.json());
+app.use (cookiesParser());
+
 
 app.listen(3000,()=>{
     console.log('Server is running at 3000');
