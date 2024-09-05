@@ -1,12 +1,14 @@
 import bcryptjs from 'bcryptjs';
 import User from '../models/user.model.js';
 import {errorHandle} from '../utils/error.js';
+import Listing from '../models/listing.model.js';
 
 export const test=(req,res)=>{
     res.json({
         message:'API Route is working',
     });
 };
+
 export const updateUser = async (req, res, next) => {
     if (req.user.id !== req.params.id)
       return next(errorHandler(401, 'You can only update your own account!'));
@@ -35,8 +37,6 @@ export const updateUser = async (req, res, next) => {
       next(error);
     }
   };
-
-
 
 export const deleteUser = async (req, res, next) => {
     if (req.user.id !== req.params.id)

@@ -3,12 +3,15 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import userRouter from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
-import listingRouter from "./routes/listing.route.js";
-import  cookiesParser from 'cookie-parser';
+import listingRouter from './routes/listing.route.js';
+import cookieParser from 'cookie-parser';
 
 
 dotenv.config();
-mongoose.connect(process.env.MONGO).then(()=>{
+
+mongoose
+.connect(process.env.MONGO)
+.then(()=>{
     console.log('Connected to  MongoDB!');
 
 }).catch((err)=>{
@@ -19,7 +22,7 @@ mongoose.connect(process.env.MONGO).then(()=>{
 
 const app=express();
 app.use(express.json());
-app.use (cookiesParser());
+app.use (cookieParser());
 
 
 app.listen(3000,()=>{

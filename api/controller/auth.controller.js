@@ -2,7 +2,8 @@ import User from '../models/user.model.js'
 import bcryptjs from 'bcryptjs';
 import {errorHandle} from "../utils/error.js";
 import jwt from 'jsonwebtoken';
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 export const signup=async (req,res,next)=>{
@@ -10,8 +11,30 @@ export const signup=async (req,res,next)=>{
     const hashedPassword =bcryptjs.hashSync(password,10);
     const newUser=new User({username,email,password:hashedPassword});
     try{
-        await newUser.save()
-        res.status(201).json('user created successfully ');
+        await newUser.save();
+        const  saved_user=await User.find({email:email});
+        console.log(saved_user);
+        
+        const token = await jwt.sign(
+            { User_id: saved_user._id }, // Payload
+            process.env.JWT_SECRET, // Secret key
+            { expiresIn: '15h' } // Options: token expires in 1 hour
+        );
+        
+        
+        res
+    .status(201) // Set the status code
+    .cookie('access_token', token, { // Set the cookie
+        httpOnly: true, // Security: prevents JavaScript from accessing the cookie
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        sameSite: 'None' // Required for cross-origin cookies
+    })
+    .json({ // Send JSON response
+        token: token,
+        message: 'User created successfully'
+    });
+
+
 
     } catch (error){
         next(error);
@@ -93,4 +116,10 @@ export const signOut=async (req,res,next)=>{
         next(error);
     }
 };
+
+
+
+
+
+
 
