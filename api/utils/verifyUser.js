@@ -3,7 +3,8 @@
 
 export const verifyToken=(req,res,next)=>{
    const token = req.cookies.access_token;
-   console.log("Token: ", token);
+   // console.log("Token: ", token);
+   // console.log(req.cookies.access_token);
  if (!token) return next(errorHandle(401, 'Unauthorized'));
  
  jwt.verify(token,process.env.JWT_SECRET,(err,user)=>{
@@ -14,6 +15,9 @@ export const verifyToken=(req,res,next)=>{
     }
 
     req.user=user;
+    console.log("Decoded User ID: ",req.user);
+   //  console.log("Decoded User Object: ", req.user);
+
     next();
  });
 };

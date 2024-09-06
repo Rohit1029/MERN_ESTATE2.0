@@ -24,13 +24,9 @@ export const signup=async (req,res,next)=>{
         
         res
     .status(201) // Set the status code
-    .cookie('access_token', token, { // Set the cookie
-        httpOnly: true, // Security: prevents JavaScript from accessing the cookie
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-        sameSite: 'None' // Required for cross-origin cookies
-    })
+    .cookie('access_token',token,{httpOnly:true})
     .json({ // Send JSON response
-        token: token,
+        success: true,
         message: 'User created successfully'
     });
 
