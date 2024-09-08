@@ -60,6 +60,6 @@ export const getUserListings = async (req, res, next) => {
       next(error);
     }
   } else {
-    return next(errorHandle(401, 'You can only view your own listings!'));
+    return next(errorHandle(401, 'You cafffn only view your own listings!'));
   }
 };
